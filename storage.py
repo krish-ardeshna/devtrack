@@ -54,13 +54,26 @@ class Storage:
                 return task
         return None
     
-    def update_task(self, task_id: int, **updates):
+    def update_task(
+        self,
+        task_id: int,
+        title: str | None = None,
+        repo_link: str | None = None,
+    ) -> bool:
         task = self.get_task(task_id)
         if task is None:
             return False
-        for key, value in updates.items():
-            setattr(task, key, value)
-        self._save()
+
+        changed = False
+        if title is not None:
+            task.title = title
+            changed = True
+        if repo_link is not None:
+            task.repo_link = repo_link
+            changed = True
+
+        if changed:
+            self._save()
         return True
     
     def delete_task(self, task_id: int):
