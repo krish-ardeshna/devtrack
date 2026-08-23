@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import copy
 from task import Task
 
 class Storage:
@@ -48,19 +49,23 @@ class Storage:
         self.tasks.append(task)
         self._save()
         
-    def get_task(self, task_id: int):
+    def _find_task(self, task_id: int):
         for task in self.tasks:
             if task.id == task_id:
                 return task
         return None
-    
+
+    def get_task(self, task_id: int):
+        task = self._find_task(task_id)
+        return copy.deepcopy(task) if task else None
+
     def update_task(
         self,
         task_id: int,
         title: str | None = None,
         repo_link: str | None = None,
     ) -> bool:
-        task = self.get_task(task_id)
+        task = self._find_task(task_id)
         if task is None:
             return False
 
