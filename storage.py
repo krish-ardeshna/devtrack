@@ -88,3 +88,11 @@ class Storage:
                 self._save()
                 return True
         return False
+    
+    def complete_task(self, task_id: int) -> bool:
+        task = self._find_task(task_id)
+        if task is None:
+            return False
+        task.complete()
+        self._save()
+        return True
