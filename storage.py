@@ -38,4 +38,35 @@ class Storage:
         except OSError as e:
             print(f"Error: Could not save tasks to {self.file_path} ({e}).")
 
+    def _next_id(self) -> int:
+        if not self.tasks:
+            return 1
+        return max(task.id for task in self.tasks) + 1
+                    
+    def add_task(self, task: Task):
+        task.id = self._next_id()
+        self.tasks.append(task)
+        self._save()
+        
+    def get_task(self, task_id: int):
+        for task in self.tasks:
+            if task.id == task_id:
+                return task
+        return None
     
+    def update_task(self, task_id: int, **updates):
+        task = self.get_task(task_id)
+        if task is None:
+            return False
+        for key, value in updates.items():
+            setattr(task, key, value)
+        self._save()
+        return True
+    
+    def delete_task(self, task_id: int):
+        for i, task in enumerate(self.tasks):
+            if task.id == task_id:
+                del self.tasks[i]
+                self._save()
+                return True
+        return False
