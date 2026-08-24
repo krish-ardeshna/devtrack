@@ -1,6 +1,6 @@
-import { fetchTasks } from './tasks.js'
-import { fetchRepoInfo, fetchCommits } from './github.js'
-import { renderRepoInfo, renderCommits, renderTasks } from './render.js'
+import { fetchTasks } from "./tasks.js";
+import { fetchRepoInfo, fetchCommits } from "./github.js";
+import { renderTasks, renderRepoInfo, renderCommits } from "./render.js";
 
 async function init() {
     try {
@@ -9,13 +9,13 @@ async function init() {
             fetchRepoInfo(),
             fetchCommits()
         ]);
-
-        renderTasks(tasks);
+        
         renderRepoInfo(repo);
         renderCommits(commits);
+        renderTasks(tasks, commits);
     } catch (error) {
         console.error("Dashboard failed to load data:", error);
     }
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener("DOMContentLoaded", init);
