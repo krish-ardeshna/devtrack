@@ -34,34 +34,48 @@ export function renderCommits(commits) {
     });
 }
 
+export function matchTaskToCommit(task, commits) {
+    const match = commits.find(commitData => 
+        commitData.commit.message.toLowerCase().includes(task.title.toLowerCase()) 
+    );
+    return match || null;
+}
+
+export function mergeTasks(tasks, commits) {
+    return tasks.map(task => ({
+        task: task,
+        matchedCommit: matchTaskToCommit(task, commits)
+    }));
+}
+
 export function renderTasks(tasks, commits) {
     const container = document.getElementById("tasks-list");
     if (!container) return;
     
     container.innerHTML = "";
     
-    tasks.forEach(task => {
+    const mergedData = mergeTasks(tasks, commits);
+    
+    mergedData.forEach(item => {
         const taskDiv = document.createElement("div");
-        taskDiv.className = `task-item status-${task.status.toLowerCase()}`;
-        taskDiv.textContent = `[${task.status}] #${task.id}: ${task.title}`;
+        taskDiv.className = `task-item status-${item.task.status.toLowerCase()}`;
+        taskDiv.textContent = `[${item.task.status}] ${item.task.title}`;
         
-        const relatedCommits = commits.filter(c => {
-            const match = c.commit.message.match(/#(\d+)/);
-            return match && parseInt(match[1]) === task.id;
-        });
+        const ul = document.createElement("ul");
+        const li = document.createElement("li");
         
-        if (relatedCommits.length > 0) {
-            const ul = document.createElement("ul");
-            relatedCommits.forEach(c => {
-                const li = document.createElement("li");
-                const date = new Date(c.commit.author.date).toLocaleDateString();
-                const msg = c.commit.message.split("\n")[0];
-                li.textContent = `${date} - ${msg}`;
-                ul.appendChild(li);
-            });
-            taskDiv.appendChild(ul);
+        if (item.matchedCommit) {
+            const date = new Date(item.matchedCommit.commit.author.date).toLocaleDateString();
+            const msg = item.matchedCommit.commit.message.split("\n")[0];
+            li.textContent = `${date} - ${msg}`;
+        } else {
+            li.textContent = "no matching activity yet.";
+            li.style.color = "#757575";
+            li.style.fontStyle = "italic";
         }
         
+        ul.appendChild(li);
+        taskDiv.appendChild(ul);
         container.appendChild(taskDiv);
     });
 }
