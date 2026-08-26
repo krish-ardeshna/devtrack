@@ -34,6 +34,12 @@ def handle_list(args, storage):
     for t in tasks:
         print(t)
         
+def handle_update(args, storage: Storage):
+    ok = storage.update_task(args.task_id, title=args.title, repo_link=args.repo_link)
+    if ok:
+        print(f"Task {args.task_id} updated successfully.")
+    else:
+        print(f"Task {args.task_id} not found.")
 
 def main():
     parser = argparse.ArgumentParser(prog="devtask")
@@ -59,6 +65,13 @@ def main():
     list_parser.add_argument("--status", choices=["pending", "completed"], default=None)
     list_parser.set_defaults(func=handle_list)
     
+    # update
+    update_parser = subparsers.add_parser("update")
+    update_parser.add_argument("task_id", type=int)
+    update_parser.add_argument("--title", default=None)
+    update_parser.add_argument("--repo_link", dest="repo_link", default=None)
+    update_parser.set_defaults(func=handle_update)
+
     args = parser.parse_args()
     storage = Storage()
     
