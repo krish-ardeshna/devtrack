@@ -93,3 +93,22 @@ export function renderTasks(tasks, commits) {
         container.appendChild(taskDiv);
     });
 }
+
+export function getTaskStats(tasks) {
+    const total = tasks.length;
+    const completed = tasks.filter(task => task.status === "completed").length;
+    const pending = total - completed;
+    return {total, completed, pending};
+}
+
+export function renderTaskStats(tasks) {
+    const container = document.getElementById("repo-stats");
+    if (!container) return;
+
+    const stats = getTaskStats(tasks);
+    const statsDiv = document.createElement("p");
+
+    statsDiv.textContent = `Tasks: ${stats.total} Total | ${stats.completed} Completed | ${stats.pending} Pending`;
+
+    container.appendChild(statsDiv);
+}
