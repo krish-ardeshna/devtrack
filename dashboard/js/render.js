@@ -1,3 +1,16 @@
+function getCommitsDetails(commitData) {
+    if(commitData.commit) {
+        return {
+            message: commitData.commit.message.split("\n")[0],
+            date: commitData.commit.author.date
+        };
+    }
+    return {
+        message: commitData.message,
+        date: commitData.date
+    };
+}
+
 export function renderRepoInfo(repo) {
     const container = document.getElementById("repo-stats");
     if(!container) return;
@@ -26,18 +39,19 @@ export function renderCommits(commits) {
         const div = document.createElement("div");
         div.className = "commit-item";
         
-        const message = commitData.commit.message.split("\n")[0];
-        const date = new Date(commitData.commit.author.date).toLocaleDateString();
+        const details = getCommitsDetails(commitData);
+        const date = new Date(details.date).toLocaleDateString();
         
-        div.textContent = `${date}: ${message}`;
+        div.textContent = `${date}: ${details.message}`;
         container.appendChild(div);
     });
 }
 
 export function matchTaskToCommit(task, commits) {
-    const match = commits.find(commitData => 
-        commitData.commit.message.toLowerCase().includes(task.title.toLowerCase()) 
-    );
+    const match = commits.find(commitData => { 
+        const details = getCommitsDetails(commitData);
+        return details.message.toLowerCase().includes(task.title.toLowerCase()) 
+    });
     return match || null;
 }
 
@@ -45,7 +59,7 @@ export function mergeTasks(tasks, commits) {
     return tasks.map(task => ({
         task: task,
         matchedCommit: matchTaskToCommit(task, commits)
-    }));
+    }));    
 }
 
 export function renderTasks(tasks, commits) {
@@ -65,9 +79,9 @@ export function renderTasks(tasks, commits) {
         const li = document.createElement("li");
         
         if (item.matchedCommit) {
-            const date = new Date(item.matchedCommit.commit.author.date).toLocaleDateString();
-            const msg = item.matchedCommit.commit.message.split("\n")[0];
-            li.textContent = `${date} - ${msg}`;
+            const details = getCommitsDetails(item.matchedCommit);
+            const date = new Date(details.date).toLocaleString();
+            li.textContent = `${date} - ${details.message}`;
         } else {
             li.textContent = "no matching activity yet.";
             li.style.color = "#757575";
