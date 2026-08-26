@@ -1,20 +1,19 @@
-import { fetchTasks } from "./tasks.js";
 import { fetchRepoInfo, fetchCommits } from "./github.js";
-import { renderTasks, renderRepoInfo, renderCommits } from "./render.js";
+import { fetchTasks } from "./tasks.js";
+import { renderRepoInfo, renderTaskStats, renderTasks, renderCommits } from "./render.js";
 
 async function init() {
     try {
-        const [tasks, repo, commits] = await Promise.all([
-            fetchTasks(),
-            fetchRepoInfo(),
-            fetchCommits()
-        ]);
-        
+        const repo = await fetchRepoInfo();
+        const commits = await fetchCommits();
+        const tasks = await fetchTasks();
+
         renderRepoInfo(repo);
-        renderCommits(commits);
+        renderTaskStats(tasks);
         renderTasks(tasks, commits);
+        renderCommits(commits);
     } catch (error) {
-        console.error("Dashboard failed to load data:", error);
+        console.error(error);
     }
 }
 
