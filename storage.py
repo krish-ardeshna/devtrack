@@ -1,7 +1,9 @@
 import json
 from pathlib import Path
 import copy
+import datetime
 from task import Task
+from priority import Priority
 
 class Storage:
     def __init__(self, file_path: str = "tasks.json"):
@@ -9,7 +11,7 @@ class Storage:
         self.tasks = self._load()
         
     def _load(self):
-        if not self.file_path.exists():
+        if not self.file_path.exists(): 
             return []
 
         try:
@@ -64,6 +66,9 @@ class Storage:
         task_id: int,
         title: str | None = None,
         repo_link: str | None = None,
+        priority: Priority | None = None,
+        tags: list[str] | None = None,
+        due_date: datetime.date | None = None
     ) -> bool:
         task = self._find_task(task_id)
         if task is None:
@@ -75,6 +80,15 @@ class Storage:
             changed = True
         if repo_link is not None:
             task.repo_link = repo_link
+            changed = True
+        if priority is not None:
+            task.priority = priority
+            changed = True
+        if tags is not None:
+            task.tags = tags
+            changed = True
+        if due_date is not None:
+            task.due_date = due_date
             changed = True
 
         if changed:
