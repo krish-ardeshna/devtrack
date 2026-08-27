@@ -73,11 +73,34 @@ export function renderTasks(tasks, commits) {
     mergedData.forEach(item => {
         const taskDiv = document.createElement("div");
         taskDiv.className = `task-item status-${item.task.status.toLowerCase()}`;
-        taskDiv.textContent = `[${item.task.status}] ${item.task.title}`;
+
+        const headerDiv = document.createElement("div");
+
+        const titleSpan = document.createElement("strong");
+        titleSpan.textContent = `[${item.task.status}] ${item.task.title} `;
+
+        const prioritySpan = document.createElement("span");
+        const priorityValue = item.task.priotiy ? item.task.priority : "MEDIUM";
+        prioritySpan.className = `priority-badge priority-${priorityValue.toLowerCase()}`;
+        prioritySpan.textContent = priorityValue;
+
+        headerDiv.appendChild(titleSpan);
+        headerDiv.appendChild(prioritySpan);
         
+        if (item.task.tags && item.task.tags.length > 0) {
+            item.task.tags.forEach(tag => {
+                const tagSpan = document.createElement("span");
+                tagSpan.className = "tag";
+                tagSpan.textContent = ` #${tag}`;
+                headerDiv.appendChild(tagSpan);
+            });
+        }
+
+        taskDiv.appendChild(headerDiv);
+
         const ul = document.createElement("ul");
         const li = document.createElement("li");
-        
+
         if (item.matchedCommit) {
             const details = getCommitsDetails(item.matchedCommit);
             const date = new Date(details.date).toLocaleString();
