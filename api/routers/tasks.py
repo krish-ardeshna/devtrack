@@ -5,6 +5,7 @@ from schemas.task import TaskResponse, TaskCreate
 from core.dependencies import get_storage
 from storage import Storage
 from task import Task
+from priority import Priority
 
 router = APIRouter(tags=["tasks"])
 
@@ -14,13 +15,27 @@ def get_tasks(storage: Storage = Depends(get_storage)):
 
 @router.post("/", response_model=TaskResponse)
 def create_task(task_in: TaskCreate, storage: Storage = Depends(get_storage)):
-    task = Task(title=task_in.title)
+    task = Task(
+        title=task_in.title,
+        repo_link=task_in.repo_link,
+        priority=Priority(task_in.priority),
+        tags=task_in.tags,
+        due_date=task_in.due_date
+    )
     storage.add_task(task)
     return task.to_dict()
 
 @router.put("/{task_id}", response_model=TaskResponse)
 def update_task(task_id: int, task_in: TaskCreate, storage: Storage = Depends(get_storage)):
-    ok = storage.update_task(task_id, title=task_in.title)
+    prirority_val = Priority(task_in.priority) if task_in.priority else None
+    ok = storage.update_task(
+        task_id, 
+        title=task_in.title,
+        repo_link=task_in.repo_link,
+        priority=Priority(task_in.priority),
+        tags=task_in.tags,
+        due_date=task_in.due_date
+    )
     if not ok:
         raise HTTPException(status_code=404, detail="Task not found")
     return storage.get_task(task_id).to_dict()
