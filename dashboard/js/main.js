@@ -4,9 +4,11 @@ import { renderRepoInfo, renderTaskStats, renderTasks, renderCommits } from "./r
 
 async function init() {
     try {
-        const repo = await fetchRepoInfo();
-        const commits = await fetchCommits();
-        const tasks = await fetchTasks();
+        const [repo, commits, tasks] = await Promise.all([
+            fetchRepoInfo(),
+            fetchCommits(),
+            fetchTasks(),
+        ]);
 
         renderRepoInfo(repo);
         renderTaskStats(tasks);
