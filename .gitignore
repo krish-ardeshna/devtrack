@@ -26,4 +26,3 @@ dist/
 # OS files
 .DS_Store
 Thumbs.dbtasks.json
-tasks.json
