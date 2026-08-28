@@ -117,7 +117,7 @@
 
   <!-- Packet 2: User -> FastAPI -->
   <circle class="pulse-dot" r="5">
-    <animateMotion dur="2.2s" repeatCount="indefinite" path="M 420 85 C 470 85 490 120 490 190" />
+    <animateMotion dur="2.2s" repeatCount="indefinite" path="M 350 85 C 380 85 490 120 490 190" />
   </circle>
 
   <!-- Packet 3: cli.py -> storage.py -->
