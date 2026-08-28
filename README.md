@@ -10,6 +10,7 @@ Tasks live in a flat local JSON file. A public dashboard cross-references them a
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES_Modules-F7DF1E?logo=javascript&logoColor=black)
 ![FastAPI](https://img.shields.io/badge/FastAPI-optional_layer-009688?logo=fastapi&logoColor=white)
 
+🚀 **Live Dashboard:** [krish-ardeshna.github.io/devtrack](https://krish-ardeshna.github.io/devtrack/)
 ---
 
 ## Quick Start
