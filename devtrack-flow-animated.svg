@@ -1,0 +1,299 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1100" width="100%" height="100%" style="background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Arrow Markers -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1e90ff"/>
+    </marker>
+    <marker id="arrow-dashed" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1e90ff"/>
+    </marker>
+
+    <!-- Diamond gradient & glow filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="diamondGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#021329" />
+      <stop offset="100%" stop-color="#08284d" />
+    </linearGradient>
+
+    <!-- Stylesheet for Pulse Animations -->
+    <style>
+      .node-box {
+        fill: #000000;
+        stroke: #1e90ff;
+        stroke-width: 3.5;
+      }
+      .node-text {
+        fill: #ffffff;
+        font-size: 20px;
+        font-weight: 500;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+      .sub-text {
+        fill: #ffffff;
+        font-size: 16px;
+        font-weight: 400;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+      .badge-bg {
+        fill: #051329;
+        rx: 10px;
+      }
+      .badge-text {
+        fill: #ffffff;
+        font-size: 14.5px;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+      .wire {
+        fill: none;
+        stroke: #1e90ff;
+        stroke-width: 3;
+      }
+      .wire-dashed {
+        fill: none;
+        stroke: #1e90ff;
+        stroke-width: 3;
+        stroke-dasharray: 6 5;
+      }
+      .pulse-dot {
+        fill: #ffffff;
+        stroke: #1e90ff;
+        stroke-width: 2.5;
+        filter: drop-shadow(0 0 4px #00bfff);
+      }
+    </style>
+  </defs>
+
+  <!-- ==================== FLOW PATHS (WIRES) ==================== -->
+
+  <!-- 1. User -> cli.py -->
+  <path id="path-user-cli" class="wire" d="M 310 85 C 260 85 140 100 140 190" marker-end="url(#arrow)" />
+
+  <!-- 2. User -> FastAPI -->
+  <path id="path-user-fastapi" class="wire" d="M 350 85 C 380 85 490 120 490 190" marker-end="url(#arrow)" />
+
+  <!-- 3. cli.py -> storage.py -->
+  <path id="path-cli-storage" class="wire" d="M 100 265 L 100 340" marker-end="url(#arrow)" />
+
+  <!-- 4. storage.py -> tasks.json -->
+  <path id="path-storage-tasks" class="wire" d="M 90 415 L 90 480" marker-end="url(#arrow)" />
+
+  <!-- 5. storage.py -> FastAPI -->
+  <path id="path-storage-fastapi" class="wire" d="M 155 345 C 230 345 280 230 350 230" marker-end="url(#arrow)" />
+
+  <!-- 6. FastAPI -> GitHub REST API -->
+  <path id="path-fastapi-github" class="wire" d="M 620 230 C 760 230 765 260 765 325" marker-end="url(#arrow)" />
+
+  <!-- 7. GitHub REST API -> Dashboard JS (Dashed) -->
+  <path id="path-github-dashboard" class="wire-dashed" d="M 765 405 C 765 440 690 460 635 490" marker-end="url(#arrow-dashed)" />
+
+  <!-- 8. Dashboard JS -> raw.githubusercontent.com (Down) -->
+  <path id="path-dashboard-raw" class="wire" d="M 430 530 C 350 530 350 590 350 670" marker-end="url(#arrow)" />
+
+  <!-- 9. raw.githubusercontent.com -> Dashboard JS (Up) -->
+  <path id="path-raw-dashboard" class="wire" d="M 410 670 C 470 670 495 620 495 565" marker-end="url(#arrow)" />
+
+  <!-- 10. Dashboard JS -> Decision Diamond -->
+  <path id="path-dashboard-diamond" class="wire" d="M 630 530 C 700 530 700 570 700 640" marker-end="url(#arrow)" />
+
+  <!-- 11. Decision -> Linked (Yes) -->
+  <path id="path-diamond-linked" class="wire" d="M 635 770 C 530 770 490 820 490 890" marker-end="url(#arrow)" />
+
+  <!-- 12. Decision -> Unlinked (No) -->
+  <path id="path-diamond-unlinked" class="wire" d="M 765 770 C 865 770 870 820 870 890" marker-end="url(#arrow)" />
+
+
+  <!-- ==================== ANIMATED PACKETS / DOTS ==================== -->
+
+  <!-- Packet 1: User -> cli.py -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="2.5s" repeatCount="indefinite" path="M 310 85 C 260 85 140 100 140 190" />
+  </circle>
+
+  <!-- Packet 2: User -> FastAPI -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="2.2s" repeatCount="indefinite" path="M 420 85 C 470 85 490 120 490 190" />
+  </circle>
+
+  <!-- Packet 3: cli.py -> storage.py -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="1.6s" repeatCount="indefinite" path="M 100 265 L 100 340" />
+  </circle>
+
+  <!-- Packet 4: storage.py -> tasks.json -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="1.5s" repeatCount="indefinite" path="M 90 415 L 90 480" />
+  </circle>
+
+  <!-- Packet 5: storage.py -> FastAPI -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="3s" repeatCount="indefinite" path="M 155 345 C 230 345 280 230 350 230" />
+  </circle>
+
+  <!-- Packet 6: FastAPI -> GitHub REST API -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="2.8s" repeatCount="indefinite" path="M 620 230 C 760 230 765 260 765 325" />
+  </circle>
+
+  <!-- Packet 7: GitHub REST API -> Dashboard JS -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="2.4s" repeatCount="indefinite" path="M 765 405 C 765 440 690 460 635 490" />
+  </circle>
+
+  <!-- Packet 8: Dashboard JS -> raw.githubusercontent.com -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="2.6s" repeatCount="indefinite" path="M 430 530 C 350 530 350 590 350 670" />
+  </circle>
+
+  <!-- Packet 9: raw.githubusercontent.com -> Dashboard JS -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite" path="M 410 670 C 470 670 495 620 495 565" />
+  </circle>
+
+  <!-- Packet 10: Dashboard JS -> Decision -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="2s" repeatCount="indefinite" path="M 630 530 C 700 530 700 570 700 640" />
+  </circle>
+
+  <!-- Packet 11: Decision -> Linked -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="2s" repeatCount="indefinite" path="M 635 770 C 530 770 490 820 490 890" />
+  </circle>
+
+  <!-- Packet 12: Decision -> Unlinked -->
+  <circle class="pulse-dot" r="5">
+    <animateMotion dur="2s" repeatCount="indefinite" path="M 765 770 C 865 770 870 820 870 890" />
+  </circle>
+
+
+  <!-- ==================== BADGES & LABELS ON WIRES ==================== -->
+
+  <!-- CLI command -->
+  <g transform="translate(93, 115)">
+    <rect class="badge-bg" x="-65" y="-14" width="130" height="28" />
+    <text class="badge-text" x="0" y="0">CLI command</text>
+  </g>
+
+  <!-- HTTP request -->
+  <g transform="translate(530, 118)">
+    <rect class="badge-bg" x="-62" y="-14" width="124" height="28" />
+    <text class="badge-text" x="0" y="0">HTTP request</text>
+  </g>
+
+  <!-- temp file + atomic rename (Orange Text) -->
+  <text x="210" y="405" fill="#ff7700" font-size="16" font-weight="600" text-anchor="start">temp file +</text>
+  <text x="210" y="430" fill="#ff7700" font-size="16" font-weight="600" text-anchor="start">atomic rename</text>
+
+  <!-- authenticated, 5000 req/hr -->
+  <g transform="translate(810, 228)">
+    <rect class="badge-bg" x="-65" y="-23" width="130" height="46" />
+    <text class="badge-text" x="0" y="-10">authenticated,</text>
+    <text class="badge-text" x="0" y="12">5000 req/hr</text>
+  </g>
+
+  <!-- commits -->
+  <g transform="translate(778, 435)">
+    <rect class="badge-bg" x="-42" y="-14" width="84" height="28" />
+    <text class="badge-text" x="0" y="0">commits</text>
+  </g>
+
+  <!-- unauthenticated, 60 req/hr (Moved to Dashed Commits Wire) -->
+  <g transform="translate(820, 480)">
+    <rect class="badge-bg" x="-75" y="-23" width="150" height="46" />
+    <text class="badge-text" x="0" y="-10">unauthenticated,</text>
+    <text class="badge-text" x="0" y="12">60 req/hr</text>
+  </g>
+
+  <!-- tasks.json + commits -->
+  <g transform="translate(742, 550)">
+    <rect class="badge-bg" x="-52" y="-23" width="104" height="46" />
+    <text class="badge-text" x="0" y="-10">tasks.json</text>
+    <text class="badge-text" x="0" y="12">+ commits</text>
+  </g>
+
+  <!-- Yes -->
+  <text x="530" y="815" fill="#ffffff" font-size="17" font-weight="500">Yes</text>
+
+  <!-- No -->
+  <text x="838" y="815" fill="#ffffff" font-size="17" font-weight="500">No</text>
+
+
+  <!-- ==================== WORKFLOW NODES ==================== -->
+
+  <!-- 1. Node: User -->
+  <g transform="translate(242, 15)">
+    <rect class="node-box" width="150" height="70" rx="14" />
+    <text class="node-text" x="75" y="35">User</text>
+  </g>
+
+  <!-- 2. Node: cli.py -->
+  <g transform="translate(48, 195)">
+    <rect class="node-box" width="165" height="70" rx="14" />
+    <text class="node-text" x="82.5" y="35">cli.py</text>
+  </g>
+
+  <!-- 3. Node: FastAPI api/main.py -->
+  <g transform="translate(355, 195)">
+    <rect class="node-box" width="265" height="70" rx="14" />
+    <text class="node-text" x="132.5" y="35">FastAPI api/main.py</text>
+  </g>
+
+  <!-- 4. Node: storage.py -->
+  <g transform="translate(12, 345)">
+    <rect class="node-box" width="185" height="70" rx="14" />
+    <text class="node-text" x="92.5" y="35">storage.py</text>
+  </g>
+
+  <!-- 5. Node: tasks.json -->
+  <g transform="translate(16, 485)">
+    <path d="M 0 30 L 0 95 A 77.5 28 0 0 0 155 95 L 155 30 Z" fill="#000000" stroke="#1e90ff" stroke-width="3.5" />
+    <path d="M 0 95 A 77.5 28 0 0 0 155 95" fill="none" stroke="#1e90ff" stroke-width="3.5" />
+    <ellipse cx="77.5" cy="30" rx="77.5" ry="28" fill="#000000" stroke="#1e90ff" stroke-width="3.5" />
+    <text class="node-text" x="77.5" y="78">tasks.json</text>
+  </g>
+
+  <!-- 6. Node: GitHub REST API -->
+  <g transform="translate(665, 330)">
+    <rect class="node-box" width="220" height="75" rx="14" />
+    <text class="node-text" x="110" y="37.5">GitHub REST API</text>
+  </g>
+
+  <!-- 7. Node: Dashboard JS -->
+  <g transform="translate(433, 490)">
+    <rect class="node-box" width="198" height="75" rx="14" />
+    <text class="node-text" x="99" y="37.5">Dashboard JS</text>
+  </g>
+
+  <!-- 8. Node: raw.githubusercontent.com -->
+  <g transform="translate(159, 675)">
+    <rect class="node-box" width="328" height="85" rx="14" />
+    <text class="node-text" x="164" y="32">raw.githubusercontent.com</text>
+    <text class="sub-text" x="164" y="60">(serves tasks.json)</text>
+  </g>
+
+  <!-- 9. Node: Decision Diamond -->
+  <g transform="translate(700, 730)">
+    <polygon points="0,-90 135,0 0,90 -135,0" fill="url(#diamondGrad)" stroke="#1e90ff" stroke-width="3.5" />
+    <text class="node-text" x="0" y="-14" font-size="18">Task title found</text>
+    <text class="node-text" x="0" y="14" font-size="18">in commit message?</text>
+  </g>
+
+  <!-- 10. Node: Linked: task marked shipped -->
+  <g transform="translate(353, 900)">
+    <rect class="node-box" width="256" height="85" rx="14" />
+    <text class="node-text" x="128" y="32">Linked: task marked</text>
+    <text class="node-text" x="128" y="60">shipped</text>
+  </g>
+
+  <!-- 11. Node: Unlinked: task marked pending -->
+  <g transform="translate(720, 900)">
+    <rect class="node-box" width="256" height="85" rx="14" />
+    <text class="node-text" x="128" y="32">Unlinked: task marked</text>
+    <text class="node-text" x="128" y="60">pending</text>
+  </g>
+</svg>
