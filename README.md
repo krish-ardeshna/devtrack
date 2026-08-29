@@ -13,20 +13,29 @@ Tasks live in a flat local JSON file. A public dashboard cross-references them a
 🚀 **Live Dashboard:** [krish-ardeshna.github.io/devtrack](https://krish-ardeshna.github.io/devtrack/)
 ---
 
+## Installation
+
+```bash
+git clone https://github.com/krish-ardeshna/devtrack.git
+cd devtrack
+python -m venv myenv && source myenv/bin/activate
+pip install -e .
+```
+---
+
 ## Quick Start
 
 ```bash
-python cli.py add "Write project README" --priority high --tags docs,polish --due-date 2026-09-01
+devtrack add "Write project README" --priority high --tags docs,polish --due-date 2026-09-01
 
-python cli.py list --status pending
+devtrack list --status pending
 
-python cli.py update 3 --priority low
+devtrack update 3 --priority low
 
-python cli.py complete 3
+devtrack complete 3
 
-python cli.py remove 3
+devtrack remove 3
 ```
-
 ---
 
 ## How It Works
@@ -117,33 +126,49 @@ Toggle `USE_LOCAL_API` in `dashboard/js/config.js` to switch which path the dash
 
 ```text
 devtrack/
-├── cli.py                    # argparse CLI entry point
-├── task.py                   # Task domain model
-├── storage.py                # JSON persistence, atomic writes
-├── status.py / priority.py   # Enums
-├── tasks.json                # Data file
-├── tests/                    # pytest suite
+├── cli.py                         # argparse CLI entry point
+├── task.py                        # Task domain model
+├── storage.py                     # JSON persistence, atomic writes
+├── task_status.py / priority.py   # Enums
+├── tasks.json                     # Data file
+├── tests/                         # pytest suite
 │
-├── api/                      # Optional local FastAPI layer
+├── api/                           # Optional local FastAPI layer
 │   ├── main.py
-│   ├── core/                 # Settings, dependency injection
-│   ├── routers/              # tasks + github endpoints
-│   ├── schemas/              # Pydantic request/response models
-│   └── services/             # GitHub API integration
+│   ├── core/                      # Settings, dependency injection
+│   ├── routers/                   # tasks + github endpoints
+│   ├── schemas/                   # Pydantic request/response models
+│   └── services/                  # GitHub API integration
 │
 └── dashboard/
     ├── index.html
     ├── css/style.css
-    └── js/                   # fetch, render, merge logic
+    └── js/                        # fetch, render, merge logic
 ```
 
 ---
+
+## Using Your Own Fork
+
+Task/commit URLs default to this repo. To point the dashboard and API at your own fork:
+
+**Dashboard** — edit `dashboard/js/config.js`:
+```js
+export const GITHUB_OWNER = "your-username";
+export const GITHUB_REPO = "your-repo-name";
+```
+
+**API** — set in `.env`:
+```
+GITHUB_OWNER=your-username
+GITHUB_REPO=your-repo-name
+```
 
 ## Running the Optional Local API
 
 ```bash
 python -m venv myenv && source myenv/bin/activate
-pip install -e ".[dev]"
+pip install -e ".[api]"
 PYTHONPATH=.:./api uvicorn api.main:app --reload
 ```
 
@@ -182,7 +207,7 @@ pytest -v
 
 | Item                                                            | Status  |
 | --------------------------------------------------------------- | ------- |
-| `pip install devtrack-cli` packaging                            | Planned |
+| `pip install devtrack-cli` packaging                            | ☑️ Done |
 | Auto-commit → task linking (`git commit -m "feat: x (task:3)"`) | Planned |
 | Task search/filter in dashboard UI                              | Planned |
 
