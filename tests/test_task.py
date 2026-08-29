@@ -1,7 +1,7 @@
 from turtle import title
 
 from task import Task
-from status import Status
+from task_status import Status
 from priority import Priority
 import datetime
 

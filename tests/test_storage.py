@@ -1,7 +1,7 @@
 import datetime
 from storage import Storage
 from task import Task
-from status import Status
+from task_status import Status
 from priority import Priority
 
 def test_load_missing_file(tmp_path):

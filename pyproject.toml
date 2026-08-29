@@ -29,7 +29,7 @@ dev = [
 devtrack = "cli:main"
 
 [tool.setuptools]
-py-modules = ["cli", "task", "storage", "status", "priority"]
+py-modules = ["cli", "task", "storage", "task_status", "priority"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -1,5 +1,5 @@
 import datetime
-from status import Status
+from task_status import Status
 from typing import Optional
 from priority import Priority
 
