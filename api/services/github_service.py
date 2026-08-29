@@ -2,7 +2,7 @@ import httpx
 from core.config import settings
 from schemas.github import RepoSummary, CommitSummary
 
-GITHUB_API_URL = "https://api.github.com/repos/krish-ardeshna/devtrack"
+GITHUB_API_URL = f"https://api.github.com/repos/{settings.GITHUB_OWNER}/{settings.GITHUB_REPO}"
 
 def _auth_headers() -> dict:
     if settings.GITHUB_TOKEN:

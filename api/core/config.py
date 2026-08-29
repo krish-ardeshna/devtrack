@@ -2,6 +2,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     GITHUB_TOKEN: str | None = None
+    GITHUB_OWNER: str = "krish-ardeshna"
+    GITHUB_REPO: str = "devtrack"
 
     model_config = SettingsConfigDict(env_file=".env")
 

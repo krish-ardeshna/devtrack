@@ -1,6 +1,6 @@
-import { USE_LOCAL_API, LOCAL_API_BASE } from "./config.js";
+import { USE_LOCAL_API, LOCAL_API_BASE, GITHUB_OWNER, GITHUB_REPO, GITHUB_BRANCH } from "./config.js";
 
-const RAW_TASKS_URL = "https://raw.githubusercontent.com/krish-ardeshna/devtrack/main/tasks.json";
+const RAW_TASKS_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/tasks.json`;
 
 export async function fetchTasks() {
     const url = USE_LOCAL_API ? `${LOCAL_API_BASE}/tasks` : RAW_TASKS_URL;

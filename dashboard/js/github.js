@@ -1,7 +1,7 @@
-import { USE_LOCAL_API, LOCAL_API_BASE } from "./config.js";
+import { USE_LOCAL_API, LOCAL_API_BASE, GITHUB_OWNER, GITHUB_REPO } from "./config.js";
 
-const RAW_REPO_URL = "https://api.github.com/repos/krish-ardeshna/devtrack";
-const RAW_COMMITS_URL = "https://api.github.com/repos/krish-ardeshna/devtrack/commits?per_page=5";
+const RAW_REPO_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}`;
+const RAW_COMMITS_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/commits?per_page=5`;   
 
 export async function fetchRepoInfo() {
     const url = USE_LOCAL_API ? `${LOCAL_API_BASE}/github/repo/` : RAW_REPO_URL;
